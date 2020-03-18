@@ -6,15 +6,16 @@ using namespace std;
 
 class Repository {
 private:
-	vector<Project> elem;
+	Project elem[100];
+	int size;
 public:
 	Repository();
 	void addElem(Project);
 	void delElem(Project);
 	void updateElem(Project, const char*, int, int);
-	bool findElem(Project);
+	int findElem(Project);
 	Project getItemFromPos(int);
-	vector<Project> getAll();
-	int dim();
+	Project* getAll();
+	int getSize();
 	~Repository();
 };

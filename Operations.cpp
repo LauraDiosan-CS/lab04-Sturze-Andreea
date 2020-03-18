@@ -1,17 +1,18 @@
 #include "stdafx.h"
 #include "Operations.h"
 
-void filterProjects(Repository &repo, int branches, int commits, vector<Project> &projectFilter)
+void filterProjects(Repository &repo, int branches, int commits,int &m, Project* projectFilter)
 {
-	for (int i = 0; i < repo.dim(); i++) {
+	m = 0;
+	for (int i = 0; i < repo.getSize(); i++) {
 		Project crtProject = repo.getItemFromPos(i);
 		if (crtProject.getNoOfBranches() == branches and crtProject.getTotalNoOfCommits() == commits)
-			projectFilter.push_back(crtProject);
+			projectFilter[m++]=crtProject;
 	}
 }
 
 void delProjectsWithCondition(Repository &repo) {
-	for (int i = 0; i < repo.dim(); i++) {
+	for (int i = 0; i < repo.getSize(); i++) {
 		Project crtProject = repo.getItemFromPos(i);
 		if (crtProject.getNoOfBranches()*crtProject.getTotalNoOfCommits() == 0)
 		{

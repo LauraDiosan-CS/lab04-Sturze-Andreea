@@ -22,12 +22,11 @@ void testRepo() {
 	Project p("a/b/c", 3, 4);
 	Repository repo;
 	repo.addElem(p);
-	vector<Project> v = repo.getAll();
-	assert(repo.findElem(p) == true);
-	assert(v[0] == p and v.size() == 1);
+	Project* v = repo.getAll();
+	assert(repo.findElem(p) == 0);
+	assert(v[0] == p and repo.getSize() == 1);
 	repo.delElem(p);
-	v = repo.getAll();
-	assert(v.size() == 0);
+	assert(repo.getSize() == 0);
 }
 
 void testFilterProjects() {
@@ -40,9 +39,10 @@ void testFilterProjects() {
 	repo.addElem(p2);
 	repo.addElem(p3);
 	repo.addElem(p4);
-	vector<Project> results;
-	filterProjects(repo, 2, 4, results);
-	assert(results.size() == 2 and results[0] == p1 and results[1] == p3);
+	Project results[100];
+	int m = 0;
+	filterProjects(repo, 2, 4, m ,results);
+	assert(m == 2 and results[0] == p1 and results[1] == p3);
 }
 
 void testDelProjectsWithCondition() {
@@ -57,5 +57,5 @@ void testDelProjectsWithCondition() {
 	repo.addElem(p4);
 	vector<Project> results;
 	delProjectsWithCondition(repo);
-	assert(repo.dim() == 2 and repo.findElem(p1) and repo.findElem(p3));
+	assert(repo.getSize() == 2 and repo.findElem(p1)==0 and repo.findElem(p3)==1);
 }

@@ -2,7 +2,7 @@
 #include "Repository.h"
 
 Repository::Repository() {
-
+	size = 0;
 }
 
 Repository::~Repository() {
@@ -10,18 +10,20 @@ Repository::~Repository() {
 }
 
 void Repository::addElem(Project p) {
-	this->elem.push_back(p);
+	this->elem[size++]=p;
 }
 
 void Repository::delElem(Project p) {
-	vector<Project>::iterator it;
-	it = find(elem.begin(), elem.end(), p);
-	if (it != elem.end()) 
-		elem.erase(it);
+	int i = findElem(p);
+	if (i != -1)
+	{
+		elem[i] = elem[size - 1];
+		size--;
+	}
 }
 
 void Repository::updateElem(Project p, const char* path, int branches, int commits) {
-	for(int i = 0; i < elem.size(); i++)
+	for(int i = 0; i < size; i++)
 		if (elem[i]==p)
 		{
 			elem[i].setGitPath(path);
@@ -30,22 +32,21 @@ void Repository::updateElem(Project p, const char* path, int branches, int commi
 		}
 }
 
-bool Repository::findElem(Project p) {
-	vector<Project>::iterator it;
-	it = find(elem.begin(), elem.end(), p);
-	if (it != elem.end()) 
-		return true;
-	return false;
+int Repository::findElem(Project p) {
+	for (int i = 0; i < size; i++)
+		if (elem[i] == p)
+			return i;
+	return -1;
 }
 
 Project Repository::getItemFromPos(int i) {
 	return elem[i];
 }
 
-vector<Project> Repository::getAll() {
+Project* Repository::getAll() {
 	return elem;
 }
 
-int Repository::dim() {
-	return elem.size();
+int Repository::getSize() {
+	return size;
 }
