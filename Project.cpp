@@ -62,8 +62,11 @@ Project& Project::operator=(const Project& p) {
 		return *this;
 	if (this->gitPath)
 		delete[] this->gitPath;
-	this->gitPath = new char[strlen(p.gitPath) + 1];
-	strcpy_s(this->gitPath, strlen(p.gitPath) + 1, p.gitPath);
+	if (p.gitPath)
+	{
+		this->gitPath = new char[strlen(p.gitPath) + 1];
+		strcpy_s(this->gitPath, strlen(p.gitPath) + 1, p.gitPath);
+	}
 	this->noOfBranches = p.noOfBranches;
 	this->totalNoOfCommits = p.totalNoOfCommits;
 	return *this;
