@@ -60,8 +60,6 @@ void Project::setTotalNoOfCommits(int commits) {
 Project& Project::operator=(const Project& p) {
 	if (this == &p)
 		return *this;
-	if (this->gitPath)
-		delete[] this->gitPath;
 	if (p.gitPath)
 	{
 		this->gitPath = new char[strlen(p.gitPath) + 1];

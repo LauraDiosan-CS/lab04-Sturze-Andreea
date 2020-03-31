@@ -23,7 +23,7 @@ void UI::printMenu() {
 	cout << "\t 4.Update project" << endl;
 	cout << "\t 5.Projects that have k branches and l commits" << endl;
 	cout << "\t 6.Delete projects that have 0 branches or 0 commits" << endl;
-	//cout << "\t 7.Undo" << endl;
+	cout << "\t 7.Undo" << endl;
 	cout << "\t 0.Exit" << endl;
 	cout << "Choose option: ";
 }
@@ -107,6 +107,11 @@ void UI::deleteProjects() {
 	service.delProjectsWithCondition();
 }
 
+void UI::undo() {
+	if (service.undo() == -1)
+		cout << "The undo option is not available!";
+}
+
 void UI::run() {
 	int option;
 	bool works = true;
@@ -141,6 +146,7 @@ void UI::run() {
 			break;
 		}
 		case 7: {
+			undo();
 			break;
 		}
 		case 0: {

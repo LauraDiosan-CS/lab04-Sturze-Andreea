@@ -11,6 +11,7 @@ private:
 	void updateProject();
 	void filterProjects();
 	void deleteProjects();
+	void undo();
 public:
 	UI();
 	UI(const Service &);

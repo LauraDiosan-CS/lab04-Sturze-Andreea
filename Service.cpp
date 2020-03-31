@@ -2,10 +2,12 @@
 #include "Service.h"
 
 Service::Service() {
+	undoSize = 0;
 }
 
 Service::Service(const Repository& repository) {
 	this->repo = repository;
+	undoSize = 0;
 }
 
 Service::~Service() {
@@ -13,16 +15,19 @@ Service::~Service() {
 }
 
 void Service::addToRepo(const char* path, int branches, int commits) {
+	undoRepo[undoSize++] = repo;
 	Project p(path, branches, commits);
 	this->repo.addElem(p);
 }
 
 void Service::delFromRepo(const char* path, int branches, int commits) {
+	undoRepo[undoSize++] = repo;
 	Project p(path, branches, commits);
 	this->repo.delElem(p);
 }
 
 void Service::updateInRepo(const char* path, int branches, int commits, const char* newPath, int newBranches, int newCommits) {
+	undoRepo[undoSize++] = repo;
 	Project p(path, branches, commits);
 	this->repo.updateElem(p,newPath, newBranches,newCommits);
 }
@@ -50,6 +55,7 @@ void Service::filterProjects( int branches, int commits,int &m, Project* project
 }
 
 void Service::delProjectsWithCondition() {
+	undoRepo[undoSize++] = repo;
 	for (int i = 0; i < repo.getSize(); i++) {
 		Project crtProject = repo.getItemFromPos(i);
 		if (crtProject.getNoOfBranches()*crtProject.getTotalNoOfCommits() == 0)
@@ -58,4 +64,11 @@ void Service::delProjectsWithCondition() {
 			i--;
 		}
 	}
+}
+
+int Service::undo() {
+	if (undoSize == 0)
+		return -1;
+	this->repo = this->undoRepo[undoSize-1];
+	undoSize--;
 }

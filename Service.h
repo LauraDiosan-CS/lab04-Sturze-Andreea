@@ -5,6 +5,8 @@
 class Service {
 private:
 	Repository repo;
+	Repository undoRepo[10];
+	int undoSize;
 public:
 	Service();
 	Service(const Repository&);
@@ -17,4 +19,5 @@ public:
 	int getRepoSize();
 	void filterProjects(int branches, int commits, int &m, Project* projectFilter);
 	void delProjectsWithCondition();
+	int undo();
 };
